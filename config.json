@@ -1,0 +1,18 @@
+{
+  "pdf_pipeline": {
+    "pdf_load_done": false,
+    "pdf_clean_done": false,
+    "pdf_chunk_done": false,
+    "pdf_embeddings_done": false
+  },
+  "web_pipeline": {
+    "web_download_done": true,
+    "web_clean_done": true,
+    "web_chunk_done": true,
+    "web_embeddings_done": true
+  },
+  "pdf_load_done": true,
+  "pdf_clean_done": true,
+  "pdf_chunk_done": true,
+  "pdf_embeddings_done": true
+}
