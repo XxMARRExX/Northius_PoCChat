@@ -1,3 +1,4 @@
 ./venv311
 ./data/raw/pdfs
 ./ingestion/__pycache__
+./app/__pycache__
