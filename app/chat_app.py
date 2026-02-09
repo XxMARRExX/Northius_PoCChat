@@ -35,33 +35,38 @@ for msg in st.session_state.messages:
 # Input del usuario
 if question := st.chat_input("Escribe tu pregunta..."):
 
-    # Guardar mensaje usuario
+    # Guardar y mostrar mensaje del usuario
     st.session_state.messages.append(
         {"role": "user", "content": question}
     )
     with st.chat_message("user"):
         st.markdown(question)
 
-    intencion = clasificar_intencion(question)
+    # ─────────── INDICADOR DE PROCESAMIENTO (CORRECTO) ───────────
+    placeholder = st.empty()
 
-    # ── RAG ──────────────────────────────────────
-    query_embedding = embedder.encode(
-        question,
-        normalize_embeddings=True
-    ).tolist()
+    with placeholder:
+        st.markdown("🟢 **Analizando tu mensaje...**")
 
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=TOP_K
-    )
+        # ===== TODO EL PROCESAMIENTO VA AQUÍ DENTRO =====
 
-    chunks = results["documents"][0]
+        intencion = clasificar_intencion(question)
 
-    context = "\n\n".join(
-        f"- {chunk}" for chunk in chunks
-    )
+        query_embedding = embedder.encode(
+            question,
+            normalize_embeddings=True
+        ).tolist()
 
-    prompt = f"""
+        results = collection.query(
+            query_embeddings=[query_embedding],
+            n_results=TOP_K
+        )
+
+        chunks = results["documents"][0]
+
+        context = "\n\n".join(f"- {chunk}" for chunk in chunks)
+
+        prompt = f"""
 Eres un asistente comercial de Nubika.
 
 REGLAS OBLIGATORIAS:
@@ -91,18 +96,22 @@ INSTRUCCIONES FINALES:
 - Intenta siempre, de forma natural, avanzar hacia agendar una llamada.
 """
 
-    # ── LLaMA local ─────────────────────────────
-    response = ollama.chat(
-        model="llama3:8b",
-        messages=[
-            {"role": "system", "content": "Eres un asistente informativo y preciso."},
-            {"role": "user", "content": prompt}
-        ]
-    )
+        response = ollama.chat(
+            model="llama3:8b",
+            messages=[
+                {"role": "system", "content": "Eres un asistente informativo y preciso."},
+                {"role": "user", "content": prompt}
+            ]
+        )
 
-    answer = response["message"]["content"]
+        answer = response["message"]["content"]
 
-    # Guardar respuesta
+    # ─────────── FIN DEL PROCESAMIENTO ───────────
+
+    # BORRAR el "Analizando..." ANTES de mostrar la respuesta
+    placeholder.empty()
+
+    # Guardar y mostrar respuesta final
     st.session_state.messages.append(
         {"role": "assistant", "content": answer}
     )
