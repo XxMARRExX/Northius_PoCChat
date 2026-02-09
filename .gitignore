@@ -1,0 +1,3 @@
+./venv311
+./data/raw/pdfs
+./ingestion/__pycache__
