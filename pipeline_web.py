@@ -12,7 +12,7 @@ WEB_RAW = "data/processed/web_raw.json"
 WEB_CHUNKS = "data/processed/web_chunks.json"
 
 VECTOR_STORE_PATH = "data/vector_store"
-COLLECTION_NAME = "web_knowledge_base"
+COLLECTION_NAME = "knowledge_base"
 
 CONFIG_PATH = "config.json"
 

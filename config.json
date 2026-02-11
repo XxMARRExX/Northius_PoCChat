@@ -10,9 +10,5 @@
     "web_clean_done": true,
     "web_chunk_done": true,
     "web_embeddings_done": true
-  },
-  "pdf_load_done": true,
-  "pdf_clean_done": true,
-  "pdf_chunk_done": true,
-  "pdf_embeddings_done": true
+  }
 }
